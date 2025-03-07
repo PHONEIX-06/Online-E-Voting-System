@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote Now</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .vote-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Center align the boxes */
+            max-width: 600px; /* Adjust width as needed */
+            margin: 0 auto;
+        }
+        .vote-option {
+            width: 40%; /* Adjust width for smaller boxes */
+            margin: 5px; /* Add margin for alignment */
+            padding: 10px; /* Adjust padding for smaller boxes */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            background-color: #f0f8ff; /* Light blue color */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+        }
+        .vote-option:hover, .vote-option.selected {
+            background-color: #000; /* Black color on hover and when selected */
+            color: #fff; /* Change text color to white */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+        .vote-option input[type="radio"] {
+            display: none;
+        }
+        .candidate-icon {
+            font-size: 25px; /* Adjust icon size for smaller boxes */
+            margin-bottom: 5px; /* Adjust margin for alignment */
+            transition: transform 0.3s ease; /* Smooth transition for icon */
+        }
+        .vote-option:hover .candidate-icon, .vote-option.selected .candidate-icon {
+            transform: scale(1.2); /* Slightly enlarge the icon on hover and when selected */
+        }
+        .candidate-name {
+            font-size: 14px; /* Adjust font size for candidate name */
+        }
+    </style>
+</head>
+<body>
+    <div class="container shadow-box">
+        <h1>Vote Now</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST" action="{{ url_for('vote') }}">
+            <label for="candidate">Choose a candidate:</label>
+            <div class="vote-options">
+                <label class="vote-option" for="candidate1">
+                    <input type="radio" id="candidate1" name="candidate" value="1" required>
+                    <span class="candidate-icon">🚲</span> <!-- Cycle icon -->
+                    <span class="candidate-name">{{ candidates[1] }}</span>
+                </label>
+                <label class="vote-option" for="candidate2">
+                    <input type="radio" id="candidate2" name="candidate" value="2" required>
+                    <span class="candidate-icon">🌹</span> <!-- Rose icon -->
+                    <span class="candidate-name">{{ candidates[2] }}</span>
+                </label>
+                <label class="vote-option" for="candidate3">
+                    <input type="radio" id="candidate3" name="candidate" value="3" required>
+                    <span class="candidate-icon">💻</span> <!-- Laptop icon -->
+                    <span class="candidate-name">{{ candidates[3] }}</span>
+                </label>
+                <label class="vote-option" for="candidate4">
+                    <input type="radio" id="candidate4" name="candidate" value="4" required>
+                    <span class="candidate-icon">☂️</span> <!-- Umbrella icon -->
+                    <span class="candidate-name">{{ candidates[4] }}</span>
+                </label>
+            </div>
+            <button type="submit" class="glow">Submit Vote</button>
+        </form>
+        
+        <div class="button-group">
+            <a href="{{ url_for('index') }}"><button class="glow">Back to Home</button></a>
+        </div>
+        
+        <!-- Modal for Candidate Info -->
+        <div id="candidateInfoModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p id="candidateInfoText"></p>
+            </div>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">50%</div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        var modal = document.getElementById("candidateInfoModal");
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Candidate selection and info functionality
+        var selectedOption = null;
+        var clickCount = {};
+        document.querySelectorAll('.vote-option').forEach(function(option) {
+            clickCount[option.getAttribute('for')] = 0;
+
+            option.onclick = function() {
+                var radioInput = option.querySelector('input[type="radio"]');
+                radioInput.checked = true;
+                if (selectedOption) {
+                    selectedOption.classList.remove('selected');
+                }
+                option.classList.add('selected');
+                selectedOption = option;
+
+                clickCount[option.getAttribute('for')]++;
+                if (clickCount[option.getAttribute('for')] === 3) {
+                    document.getElementById('candidateInfoText').innerText = `Details about ${option.querySelector('.candidate-name').innerText}`;
+                    modal.style.display = "block";
+                    clickCount[option.getAttribute('for')] = 0;
+                }
+            }
+        });
+
+        // Progress Bar functionality
+        var progressBar = document.getElementById("progressBar");
+        progressBar.style.width = "50%";
+    </script>
+</body>
+</html>

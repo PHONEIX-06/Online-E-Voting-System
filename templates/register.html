@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none; /* Hidden by default */
+        }
+        .input-error {
+            border: 1px solid red !important;
+        }
+        /* Flash message styling */
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        .alert-success {
+            color: green;
+            border: 1px solid green;
+        }
+        .alert-error {
+            color: red;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container shadow-box">
+        <h1>Register</h1>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Registration Form -->
+        <form method="POST" action="{{ url_for('register') }}" onsubmit="return validateForm()">
+            <!-- Username Field -->
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required minlength="4" maxlength="20" oninput="validateUsername()">
+            <div id="username-error" class="error-message">
+                Username must be 4-20 characters long and contain only letters, numbers, and underscores.
+            </div>
+            <br>
+
+            <!-- Password Field -->
+            <label for="password">Password:</label>
+            <div class="password-container">
+                <input type="password" id="password" name="password" required minlength="8" maxlength="20" oninput="validatePassword()">
+                <span class="toggle-password">👁️</span>
+            </div>
+            <div id="password-error" class="error-message">
+                Password must be 8-20 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.
+            </div>
+            <br>
+
+            <button type="submit" class="glow">Register</button>
+        </form>
+
+        <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a>.</p>
+
+        <!-- Modal Trigger -->
+        <button id="modalBtn" class="glow">More Info</button>
+
+        <!-- Modal -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>This is a modal pop-up with additional information about registration.</p>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">25%</div>
+        </div>
+    </div>
+
+    <script>
+        // Real-time validation for username
+        function validateUsername() {
+            const usernameInput = document.getElementById('username');
+            const usernameError = document.getElementById('username-error');
+            const usernameRegex = /^\w+$/; // Alphanumeric and underscores only
+
+            if (usernameInput.value.length < 4 || usernameInput.value.length > 20 || !usernameRegex.test(usernameInput.value)) {
+                usernameError.style.display = 'block';
+                usernameInput.classList.add('input-error');
+                return false;
+            } else {
+                usernameError.style.display = 'none';
+                usernameInput.classList.remove('input-error');
+                return true;
+            }
+        }
+
+        // Real-time validation for password
+        function validatePassword() {
+            const passwordInput = document.getElementById('password');
+            const passwordError = document.getElementById('password-error');
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
+
+            if (!passwordRegex.test(passwordInput.value)) {
+                passwordError.style.display = 'block';
+                passwordInput.classList.add('input-error');
+                return false;
+            } else {
+                passwordError.style.display = 'none';
+                passwordInput.classList.remove('input-error');
+                return true;
+            }
+        }
+
+        // Form submission validation
+        function validateForm() {
+            const isUsernameValid = validateUsername();
+            const isPasswordValid = validatePassword();
+
+            if (!isUsernameValid || !isPasswordValid) {
+                alert('Please fix the errors before submitting.');
+                return false;
+            }
+            return true;
+        }
+
+        // Toggle password visibility
+        document.querySelector('.toggle-password').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                this.textContent = '👁️';
+            }
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('myModal');
+        const btn = document.getElementById('modalBtn');
+        const span = document.getElementsByClassName('close')[0];
+        btn.onclick = function() {
+            modal.style.display = 'block';
+        }
+        span.onclick = function() {
+            modal.style.display = 'none';
+        }
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Progress Bar functionality
+        const progressBar = document.getElementById('progressBar');
+        let width = 0;
+        const interval = setInterval(function() {
+            if (width >= 100) {
+                clearInterval(interval);
+            } else {
+                width++;
+                progressBar.style.width = width + '%';
+                progressBar.innerHTML = width + '%';
+            }
+        }, 20);
+    </script>
+</body>
+</html>

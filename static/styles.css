@@ -1,0 +1,395 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Scrolling Text */
+.scrolling-text {
+    position: absolute;
+    white-space: nowrap;
+    font-size: 2em;
+    color: white;
+    animation: scrollText 10s linear infinite;
+}
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(100%);
+    }
+    50% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Dot Animations */
+.dot {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    animation: moveDots 10s linear infinite;
+}
+
+@keyframes moveDots {
+    0% {
+        transform: translateY(0) translateX(0);
+    }
+    100% {
+        transform: translateY(calc(100vh - 15px)) translateX(calc(100vw - 15px));
+    }
+}
+
+/* Container Styling */
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px;
+    position: relative;
+    z-index: 1; /* Ensures content is above the animated background */
+}
+
+/* Headings */
+h1 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Alert Messages */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    color: white;
+}
+
+.alert-success {
+    background-color: #28a745;
+}
+
+.alert-danger {
+    background-color: #dc3545;
+}
+
+/* Form Elements */
+label {
+    display: block;
+    text-align: left;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+
+input[type="text"], input[type="password"], input[type="email"], select {
+    width: 100%;
+    padding: 1em; /* Adjusted padding to match the new design */
+    margin: 10px 0 20px;
+    border: none; /* Removed border */
+    outline: none; /* Removed outline */
+    border-radius: 15px; /* Rounded corners */
+    box-sizing: border-box;
+    background-color: #ccc; /* Background color */
+    box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3); /* Inner shadow */
+    transition: 300ms ease-in-out; /* Smooth transition */
+    font-size: 16px; /* Ensure text size remains consistent */
+}
+
+/* Focus State */
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, select:focus {
+    background-color: white; /* Change background on focus */
+    transform: scale(1.05); /* Slightly scale up */
+    box-shadow: 13px 13px 100px #969696, -13px -13px 100px #ffffff; /* Outer shadow on focus */
+}
+
+/* Button Styles */
+button {
+    appearance: none;
+    background-color: transparent;
+    border: 0.125em solid #1A1A1A;
+    border-radius: 0.9375em;
+    box-sizing: border-box;
+    color: #3B3B3B;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    margin: 10px 5px;
+    min-height: 3.75em;
+    min-width: calc(50% - 20px); /* To make buttons sit side by side with margin */
+    outline: none;
+    padding: 1em 2.3em;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform;
+}
+
+button:disabled {
+    pointer-events: none;
+}
+
+button:hover {
+    color: #fff;
+    background-color: #1A1A1A;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+}
+
+button:active {
+    box-shadow: none;
+    transform: translateY(0);
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.button-group a {
+    text-decoration: none;
+    margin: 10px 5px;
+}
+
+.button-group button {
+    width: calc(100% - 10px); /* Full width buttons in the group */
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 500px;
+    margin: auto;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Accordion */
+.accordion {
+    background: #1c1c1c;  /* Darker background for a sleek look */
+    color: #f9f9f9;  /* Light text color */
+    cursor: pointer;
+    padding: 15px 20px;  /* Padding for better spacing */
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: background 0.3s ease, color 0.3s ease; /* Smooth transition for background and color */
+    border-radius: 5px;
+    margin: 10px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Align text and icon */
+}
+
+.accordion:hover {
+    background: #333333;  /* Slightly lighter background on hover */
+    color: #ffffff;  /* White text color on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Add subtle shadow on hover */
+}
+
+.accordion::after {
+    content: '\25BC';  /* Downward arrow */
+    font-size: 16px;
+    transition: transform 0.3s ease;  /* Smooth transition for arrow rotation */
+}
+
+.accordion.active::after {
+    transform: rotate(180deg);  /* Rotate arrow when active */
+}
+
+.panel {
+    padding: 15px 20px;  /* Padding for better spacing */
+    display: none;
+    background-color: #f9f9f9;  /* Light background for contrast */
+    overflow: hidden;
+    border: 1px solid #ccc;  /* Border for panel */
+    border-radius: 0 0 5px 5px;  /* Rounded bottom corners */
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Add subtle shadow */
+    line-height: 1.6;  /* Better line height for readability */
+}
+
+/* Optional: Animations for panel open/close */
+.panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.panel.open {
+    max-height: 500px;  /* Adjust according to content */
+}
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    background: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 25px;
+    background: #000;
+    text-align: center;
+    color: white;
+    line-height: 25px;
+    border-radius: 5px;
+    transition: width 0.4s ease; /* Smooth transition for width changes */
+}
+.progress-bar span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    background: white;
+    opacity: 0.7;
+    position: relative;
+    top: -25px;
+    left: 0;
+}
+
+
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-10px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Tooltip */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; 
+    left: 50%; 
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Cards */
+.card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .vote-options {
+        grid-template-columns: 1fr; /* Stack options in a single column */
+    }
+
+    button, .button-group button {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .popup {
+        padding: 10px 20px;
+    }
+    /* Button Hover Effect */
+}

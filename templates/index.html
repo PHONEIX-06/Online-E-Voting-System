@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container shadow-box">
+        <h1>Welcome to the Voting System</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="button-group">
+            <a href="{{ url_for('login') }}"><button class="glow">Login</button></a>
+            <a href="{{ url_for('register') }}"><button class="glow">Register</button></a>
+        </div>
+        
+        <a href="{{ url_for('vote') }}"><button class="glow">Vote Now</button></a>
+        <a href="{{ url_for('submit_share') }}"><button class="glow">Submit Shares</button></a>
+        <a href="{{ url_for('tally_results') }}"><button class="glow">Tally Results</button></a>
+        
+        <!-- Modal Trigger -->
+        <button id="modalBtn" class="glow">More Info</button>
+        <!-- Modal -->
+        <div id="myModal" class="modal">
+            <span class="close">&times;</span>
+            <p>This is a modal pop-up with additional information about the voting system.</p>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">80%</div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("modalBtn");
+        var span = document.getElementsByClassName("close")[0];
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Accordion functionality
+        var acc = document.getElementsByClassName("accordion");
+        for (let i = 0; i < acc.length; i++) {
+            acc[i].onclick = function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            }
+        }
+
+        // Progress Bar functionality
+        var progressBar = document.getElementById("progressBar");
+        progressBar.style.width = "80%";
+    </script>
+</body>
+</html>
